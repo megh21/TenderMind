@@ -1,3 +1,4 @@
+/* General Body Styles */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -6,19 +7,24 @@ body {
     margin: 0;
     background-color: #f0f0f0;
 }
+
+/* Project Metrics Container */
 .project-metrics {
     display: flex;
     justify-content: space-around;
     padding: 20px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Circle Progress Component */
 .circle-progress {
     text-align: center;
     margin: 0 20px;
     position: relative;
 }
+
 .circle {
     width: 150px;
     height: 150px;
@@ -27,10 +33,11 @@ body {
     position: relative;
     text-align: center;
     line-height: 150px;
-    font-size: 24px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
 }
+
 .circle::before {
     content: '';
     position: absolute;
@@ -41,9 +48,13 @@ body {
     border-radius: 50%;
     background-color: white;
 }
+
+/* Headings */
 h3 {
     margin-bottom: 10px;
 }
+
+/* Hover Information */
 .hover-info {
     display: none;
     position: absolute;
@@ -57,15 +68,96 @@ h3 {
     width: 200px;
     z-index: 10;
 }
+
 .circle-progress:hover .hover-info {
     display: block;
 }
+
+/* Hover Info List Styles */
 .hover-info ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     text-align: left;
 }
+
 .hover-info li {
     margin-bottom: 5px;
+}
+
+/* Additional Dashboard Styles */
+.sidebar {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    border-right: 1px solid #dee2e6;
+}
+
+.tender-link {
+    transition: background-color 0.3s ease;
+}
+
+.tender-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Card Styles */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat Interface Styles */
+#chat-box {
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+}
+
+.user-msg .rounded {
+    background-color: #6c757d;
+}
+
+.bot-msg .rounded {
+    background-color: #007bff;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 0.5rem;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Form Styles */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Loading Spinner */
+#loadingSpinner {
+    margin-top: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .project-metrics {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .circle-progress {
+        margin: 20px 0;
+    }
+    
+    .circle {
+        width: 120px;
+        height: 120px;
+        line-height: 120px;
+    }
 }

@@ -1,4 +1,108 @@
+/* General Styles */
 body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    color: #007bff;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 8px;
+}
+
+/* Card Styles */
+#cards-container-st .card,
+#cards-container-extra .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    background-color: #ffffff;
+}
+
+#cards-container-st .card:hover,
+#cards-container-extra .card:hover {
+    transform: translateY(-5px);
+}
+
+/* KPI Wheel Styles */
+.circle-progress {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.circle-progress span {
+    position: absolute;
+    z-index: 1;
+    font-size: 14px;
+    text-align: center;
+    width: 80%;
+    white-space: normal;
+}
+
+/* Chat Box Styles */
+#chat-box {
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+}
+
+.bot-msg .text-start {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.user-msg .text-end {
+    background-color: #6c757d;
+    color: #ffffff;
+}
+
+/* Input Area Styles */
+.input-group {
+    margin-top: 10px;
+}
+
+.input-group .form-control {
+    border-radius: 0;
+}
+
+.input-group .btn {
+    border-radius: 0;
+}
+
+/* Source Display Styles */
+#source {
+    font-weight: bold;
+}
+/* body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -68,4 +172,4 @@ h3 {
 }
 .hover-info li {
     margin-bottom: 5px;
-}
+} */

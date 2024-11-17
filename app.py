@@ -46,7 +46,7 @@ init_db()
 @app.route("/",  methods=['GET', 'POST'])
 def dashboard():
     tenders = Tender.query.all()
-    return render_template('dashboard.html', tenders=tenders)
+    return render_template('dashboard.html', tenders=tenders)#index.html 
 
 @app.route('/create_tender', methods=['POST'])
 def create_tender():

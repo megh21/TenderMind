@@ -212,35 +212,50 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Addon Submission Handler
-    $('#submitAddons').click(function() {
+    $('#submitAddons').click(function () {
         let selectedAddons = [];
-        $('input[type=checkbox]:checked').each(function() {
+        $('input[type=checkbox]:checked').each(function () {
             selectedAddons.push($(this).val());
         });
-
+    
+        // Send selected addons and current tender ID to the backend
         $.ajax({
             type: 'POST',
             url: '/process_addons',
             contentType: 'application/json',
             data: JSON.stringify({ 'tender_id': currentTenderId, 'addons': selectedAddons }),
-            success: function(response) {
+            success: function (response) {
                 $('#cards-container-extra').empty();
-                response.card_data_addons.forEach(function(card) {
+                response.card_data_addons.forEach(function (card) {
                     let contentHtml = '';
+    
+                    // Check if the content is an object (nested data)
                     if (typeof card.content === 'object') {
-                        for (const [key, value] of Object.entries(card.content)) {
-                            contentHtml += `<strong>${key}:</strong> ${value}<br>`;
+                        if (Array.isArray(card.content)) {
+                            // Handle array of objects
+                            card.content.forEach(item => {
+                                for (const [key, value] of Object.entries(item)) {
+                                    contentHtml += `<strong>${key}:</strong> ${value}<br>`;
+                                }
+                            });
+                        } else {
+                            // Handle single object
+                            for (const [key, value] of Object.entries(card.content)) {
+                                contentHtml += `<strong>${key}:</strong> ${value}<br>`;
+                            }
                         }
                     } else {
+                        // If it's not an object, just display it as is
                         contentHtml = card.content;
                     }
-
+    
                     $('#cards-container-extra').append(`
                         <div class="col-lg-3 col-md-6 mb-3">
                             <div class="card text-black bg-light d-flex flex-column h-100">
                                 <div class="card-body d-flex flex-column">
                                     <h4 class="card-title">${card.title}</h4>
                                     <p class="card-text">${contentHtml}</p>
+                                    <!-- This makes sure the content is pushed to the top if needed -->
                                     <div class="mt-auto"></div>
                                 </div>
                             </div>
@@ -248,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `);
                 });
             },
-            error: function(error) {
+            error: function (error) {
                 console.error('Error:', error);
             }
         });

@@ -258,7 +258,7 @@ def get_assesment(file_path):
             print(f"Database not available yet. Waiting... Error: {e}")
             time.sleep(5)  # Wait for 5 seconds before retrying
 
-    query = "Was sind wichtige Punkte in der Ausschreibung?"
+    query = "What are the important points in the tender?"
     results = query_vector_store(db, query, top_k=5)
     
     # Combine retrieved texts

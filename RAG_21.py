@@ -108,38 +108,37 @@ def query_vector_store(db, query, top_k=5):
 
 def generate_structured_yaml(retrieved_text):
     prompt = f"""
-   extrahieren Sie die folgenden Informationen aus dem bereitgestellten Text und strukturieren Sie sie gemäß dem angegebenen YAML-Format. Achten Sie besonders darauf, die **Projektphasen mit Zeitangaben**, den **Namen der ausschreibenden Firma** und den **Ausschreibungstitel** zu extrahieren. Geben Sie das Ergebnis ohne zusätzliche Formatierung oder Codeblöcke aus. Wenn ein Feld nicht verfügbar ist, setzen Sie seinen Wert auf "Nicht angegeben"
+    Extract the following information from the provided text and structure it according to the specified YAML format. Pay special attention to extracting the **project phases with timelines**, the **name of the tendering company**, and the **tender title**. Provide the result without additional formatting or code blocks. If a field is not available, set its value to "Not Provided".
     Please suggest a possible revenue potential in USD, based on the document and your prior knowledge on budgeting. Give a specific number and put it into estimated Revenue_Potential.
-    ### Auszugsweiser Text:
+    
+    ### Extracted Text:
     {retrieved_text}
 
-    ### YAML-Struktur:
+    ### YAML Structure:
 
-    Übersicht:
-      Ausschreibungstitel: "value"
-      Ausschreibende Firma: "value"
-      Abgabefrist: "value"
-      Referenznummer: "value"
-    Kosteninformationen:
-        
-      Budgetinformationen: "value"
-      Zahlungsbedingungen: "value"
-      Kostenaufgliederung: "value"
-    Hauptziele: "value"
-    Allgemeine Anforderungen: "value"
-    Besondere Anforderungen: "value"
-    Phasen und Meilensteine: "value"
-    Einreichungsrichtlinien: "value"
-    Technische Spezifikationen: "value"
-    Rechtliche und Compliance-Anforderungen: "value"
-    Support und Wartung: "value"
-
-    . und Qualifikationen: "value"
-    Kontaktinformationen:
+    Overview:
+      Tender_Title: "value"
+      Tendering_Company: "value"
+      Submission_Deadline: "value"
+      Reference_Number: "value"
+    Cost_Information:
+      Budget_Information: "value"
+      Payment_Terms: "value"
+      Cost_Breakdown: "value"
+    Main_Objectives: "value"
+    General_Requirements: "value"
+    Special_Requirements: "value"
+    Phases_and_Milestones: "value"
+    Submission_Guidelines: "value"
+    Technical_Specifications: "value"
+    Legal_and_Compliance_Requirements: "value"
+    Support_and_Maintenance: "value"
+    Experience_and_Qualifications: "value"
+    Contact_Information:
       Name: "value"
-      E-Mail: "value"
-      Telefon: "value"
-      Adresse: "value"
+      Email: "value"
+      Phone: "value"
+      Address: "value"
     Revenue_Potential: "value"
     """
 
@@ -207,7 +206,7 @@ def get_RAG(file_path):
     db = load_vector_store(save_path, embedding)
 
     # Query the vector store
-    query="Was sind wichtige Punkte in der Ausschreibung, insbesondere Firmenname, Projektphasen und titel?"
+    query = "What are the important points in the tender, particularly company name, project phases and title?"
     results = query_vector_store(db, query, top_k=10)
 
     # Combine retrieved texts

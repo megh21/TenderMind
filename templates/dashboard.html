@@ -3,177 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TenderMind Dashboard</title>
-    <!-- Link to external CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>TenderMind</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cssfile.css') }}">
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <!-- Then load Bootstrap's JavaScript bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    {% extends 'layout.html' %}
-    {% block body %}
+{% extends 'layout.html' %}
 
-    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <a class="navbar-brand" style="font-size: 28px; color: white; margin-left: 40px;">TenderMind</a>
-            <a class="navbar-brand" href="#">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; margin-right: 15px;">
-            </a>
-        </div>
-    </nav>
-
-    <div class="container-fluid pt-2">
-        <div class="row">
-            <nav class="col-md-2 bg-light sidebar d-flex flex-column align-items-center py-4" style="min-height: 100vh;">
-                <button id="createButton" class="btn btn-primary mb-4" style="width: 80%;" data-bs-toggle="modal" data-bs-target="#createTenderModal">
-                    Create New Tender
-                </button>
-
-                <div class="modal fade" id="createTenderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Create New Tender</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="createTenderForm" action="{{ url_for('create_tender') }}" method="POST" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <label for="tender-name">Tender Name</label>
-                                        <input type="text" class="form-control" id="tender-name" name="name" placeholder="Enter tender name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tender-file">Upload Tender File</label>
-                                        <input type="file" class="form-control" id="tender-file" name="file" required>
-                                    </div>
-                                    <button type="submit" id="submitButton" class="btn btn-primary">Create</button>
-                                </form>
-
-                                <div id="loadingSpinner" class="text-center mt-3" style="display: none;">
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <p>Creating tender, please wait...</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-sticky w-100">
-                    <ul class="nav flex-column w-100">
-                        {% for tender in tenders %}
-                        <li class="nav-item">
-                            <a class="nav-link tender-link text-center p-2 my-1 border border-secondary rounded" href="#" data-id="{{ tender.id }}">
-                                {{ tender.name }}
-                            </a>
-                        </li>
-                        <hr class="my-2">
-                        {% endfor %}
-                    </ul>
-                </div>
-            </nav>
-
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div class="container-fluid">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab">Home</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#details" aria-selected="false" role="tab" tabindex="-1">Details</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" data-bs-toggle="tab" href="#chat" aria-selected="false" tabindex="-1" role="tab" data-bs-target="#chat">Chat</a>
-                        </li>
-                    </ul>
-                    <div id="myTabContent" class="tab-content">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel">
-                            <br>
-                            <div class="row row-cols-1 row-cols-md-2 g-4" id="cards-container-st">
-                                <!-- Cards will be added here dynamically -->
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="details" role="tabpanel">
-                            <br>
-                            <div class="container-fluid">
-                                <div class="row my-3 d-flex align-items-center" id="checkbox-container">
-                                    <div class="col-auto">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" value="Besondere Anforderungen" id="addon1">
-                                            <label class="form-check-label" for="addon1">Besondere Anforderungen</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" value="Phasen und Meilensteine" id="addon2">
-                                            <label class="form-check-label" for="addon2">Phasen und Meilensteine</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" value="Einreichungsrichtlinien" id="addon3">
-                                            <label class="form-check-label" for="addon3">Einreichungsrichtlinien</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" value="Technische Spezifikationen" id="addon4">
-                                            <label class="form-check-label" for="addon4">Technische Spezifikationen</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" value="Rechtliche und Compliance-Anforderungen" id="addon5">
-                                            <label class="form-check-label" for="addon5">Rechtliche und Compliance-Anforderungen</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" value="Kontaktinformationen" id="addon6">
-                                            <label class="form-check-label" for="addon6">Kontaktinformationen</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <button type="button" class="btn btn-primary" id="submitAddons">Submit Addons</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container-fluid mt-3">
-                                <div class="row" id="cards-container-extra">
-                                    <!-- Cards will be added here dynamically -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="chat" role="tabpanel">
-                            <br>
-                            <div class="container d-flex flex-column vh-100">
-                                <div id="chat-box" class="flex-grow-1 p-3 overflow-auto bg-light rounded" style="border: 1px solid #ddd; max-height: 70%;">
-                                    <div class="bot-msg mb-3">
-                                        <div class="text-start p-2 rounded bg-primary text-white" style="max-width: 70%; display: inline-block;">Hello! How can I help you?</div>
-                                    </div>
-                                </div>
-                                <div class="input-group mt-3">
-                                    <input type="text" id="user-input" class="form-control" placeholder="Type your message..." aria-label="User message" aria-describedby="send-button">
-                                    <button class="btn btn-primary" type="button" id="send-button">Send</button>
-                                </div>
-                                <div class="mt-2 p-2 rounded bg-light" style="border: 1px solid #ddd;">
-                                    <p><strong>Source:</strong> <span id="source">Document: </span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+{% block body %}
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" style="font-size: 28px; color: white; margin-left: 40px;">TenderMind</a>
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 40px; margin-right: 15px;">
+        </a>
     </div>
+</nav>
 
-    <!-- Link to external JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cssfile.css') }}">
 
-    {% endblock %}
+<div class="container-fluid pt-2">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <nav class="col-md-2 bg-light sidebar d-flex flex-column align-items-center py-4" style="min-height: 100vh;">
+            <button id="createButton" class="btn btn-primary mb-4" style="width: 80%;" data-bs-toggle="modal" data-bs-target="#createTenderModal">
+                Create New Tender
+            </button>
+
+            <!-- Create Tender Modal -->
+            <div class="modal fade" id="createTenderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Create New Tender</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="createTenderForm" action="{{ url_for('create_tender') }}" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="tender-name">Tender Name</label>
+                                    <input type="text" class="form-control" id="tender-name" name="name" placeholder="Enter tender name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tender-file">Upload Tender File</label>
+                                    <input type="file" class="form-control" id="tender-file" name="file" required>
+                                </div>
+                                <button type="submit" id="submitButton" class="btn btn-primary">Create</button>
+                            </form>
+                            <div id="loadingSpinner" class="text-center mt-3" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p>Creating tender, please wait...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-sticky w-100">
+                <ul class="nav flex-column w-100">
+                    {% for tender in tenders %}
+                    <li class="nav-item">
+                        <a class="nav-link tender-link text-center p-2 my-1 border border-secondary rounded" href="#" data-id="{{ tender.id }}">
+                            {{ tender.name }}
+                        </a>
+                    </li>
+                    <hr class="my-2">
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="container-fluid">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab">Home</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#details" aria-selected="false" role="tab" tabindex="-1">Details</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#chat" aria-selected="false" tabindex="-1" role="tab" data-bs-target="#chat">Chat</a>
+                    </li>
+                </ul>
+
+                <div id="myTabContent" class="tab-content">
+                    <!-- Home Tab -->
+                    <div class="tab-pane fade show active" id="home" role="tabpanel">
+                        <div class="row">
+                            <div class="container-fluid mt-3">
+                                <div class="row" id="cards-container-st">
+                                    <!-- Dynamic cards container -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-metrics" id="project-metrics" style="display: none;">
+                            <div class="circle-progress">
+                                <h3>Complexity</h3>
+                                <div id="complexity-circle" class="circle"></div>
+                                <div class="hover-info"><ul></ul></div>
+                            </div>
+                            <div class="circle-progress">
+                                <h3>Scalability</h3>
+                                <div id="scalability-circle" class="circle"></div>
+                                <div class="hover-info"><ul></ul></div>
+                            </div>
+                            <div class="circle-progress">
+                                <h3>Integration</h3>
+                                <div id="integration-circle" class="circle"></div>
+                                <div class="hover-info"><ul></ul></div>
+                            </div>
+                            <div class="circle-progress">
+                                <h3>Time Feasibility</h3>
+                                <div id="time-feasibility-circle" class="circle"></div>
+                                <div class="hover-info"><ul></ul></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Tab -->
+                    <div class="tab-pane fade" id="details" role="tabpanel">
+                        <br>
+                        <div class="container-fluid">
+                            <div class="row my-3 d-flex align-items-center" id="checkbox-container">
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="Special_Requirements" id="addon1">
+                                        <label class="form-check-label" for="addon1">Special Requirements</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="Phases_and_Milestones" id="addon2">
+                                        <label class="form-check-label" for="addon2">Phases and Milestones</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="Submission_Guidelines" id="addon3">
+                                        <label class="form-check-label" for="addon3">Submission Guidelines</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="Technical_Specifications" id="addon4">
+                                        <label class="form-check-label" for="addon4">Technical Specifications</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="Legal_and_Compliance_Requirements" id="addon5">
+                                        <label class="form-check-label" for="addon5">Legal and Compliance Requirements</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" value="Contact_Information" id="addon6">
+                                        <label class="form-check-label" for="addon6">Contact Information</label>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-primary" id="submitAddons">Submit Addons</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid mt-3">
+                            <div class="row" id="cards-container-extra">
+                                <!-- Dynamic cards container for details -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Tab -->
+                    <div class="tab-pane fade" id="chat" role="tabpanel">
+                        <br>
+                        <div class="container d-flex flex-column vh-100">
+                            <div id="chat-box" class="flex-grow-1 p-3 overflow-auto bg-light rounded" style="border: 1px solid #ddd; max-height: 70%;">
+                                <div class="bot-msg mb-3">
+                                    <div class="text-start p-2 rounded bg-primary text-white" style="max-width: 70%; display: inline-block;">
+                                        Hello! How can I help you?
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group mt-3">
+                                <input type="text" id="user-input" class="form-control" placeholder="Type your message..." aria-label="User message" aria-describedby="send-button">
+                                <button class="btn btn-primary" type="button" id="send-button">Send</button>
+                            </div>
+                            <div class="mt-2 p-2 rounded bg-light" style="border: 1px solid #ddd;">
+                                <p><strong>Source:</strong> <span id="source">Document: </span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Required Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
 </body>
 </html>

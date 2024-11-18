@@ -215,7 +215,6 @@ class ChatWithoutTopic:
         return self.conversation.get_full_context()
 
 if __name__ == "__main__":
-    # Example usage
     vector_store_path = "store/vectorstore"
     embedding_model = "embed-multilingual-v2.0"
     yaml_path = "uploads/structured_tender_CPQ_Ausschreibung2.yaml"
@@ -223,11 +222,11 @@ if __name__ == "__main__":
     # Initialize Chat Manager for topic-based conversations
     chat_manager = ChatManager(vector_store_path, embedding_model, yaml_path)
     
-    # # Start a conversation on a specific topic
-    topic = "Übersicht"  # Replace with an actual topic key from your YAML
+    # Start a conversation on a specific topic
+    topic = "Overview"  # Changed from "Übersicht"
     print(chat_manager.start_conversation(topic))
     
-    # # Send a message in the conversation
+    # Send a message in the conversation
     user_query = "What is the topic about?"
     response = chat_manager.send_message(topic, user_query)
     print("AI Response:", response["ai_response"])
@@ -251,7 +250,7 @@ if __name__ == "__main__":
     # Initialize ChatWithoutTopic for general conversations
     chat_manager_general = ChatWithoutTopic(vector_store_path, embedding_model)
     print(chat_manager_general.start_conversation())
-    general_query = "can you get an educated gues for the revenue potential of this tender?, like I know its not provided but still if you had to take guess what would you say"
+    general_query = "can you get an educated guess for the revenue potential of this tender?, like I know its not provided but still if you had to take guess what would you say"
     general_response = chat_manager_general.send_message(general_query)
     print("AI Response:", general_response["ai_response"])
     print("References:\n", general_response["references"])

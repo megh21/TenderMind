@@ -33,7 +33,7 @@ User can also interact through an integrated chat interface to do detailed analy
 
 1. **Clone the Repository**
     ```bash
-    git clone https://github.com/yourusername/tenderMind.git
+    git clone https://github.com/megh21/tenderMind.git
     cd tenderMind
     ```
 

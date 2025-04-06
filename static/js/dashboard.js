@@ -229,34 +229,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 response.card_data_addons.forEach(function (card) {
                     let contentHtml = '';
     
-                    // Check if the content is an object (nested data)
-                    if (typeof card.content === 'object') {
-                        if (Array.isArray(card.content)) {
-                            // Handle array of objects
-                            card.content.forEach(item => {
-                                for (const [key, value] of Object.entries(item)) {
-                                    contentHtml += `<strong>${key}:</strong> ${value}<br>`;
-                                }
-                            });
-                        } else {
-                            // Handle single object
-                            for (const [key, value] of Object.entries(card.content)) {
-                                contentHtml += `<strong>${key}:</strong> ${value}<br>`;
-                            }
+                    if (Array.isArray(card.content)) {
+                        // Handle array content (like Phases_and_Milestones)
+                        contentHtml = card.content.map(item => `<li>${item}</li>`).join('');
+                        contentHtml = `<ul class="list-unstyled">${contentHtml}</ul>`;
+                    } else if (typeof card.content === 'object') {
+                        // Handle object content
+                        for (const [key, value] of Object.entries(card.content)) {
+                            contentHtml += `<strong>${key}:</strong> ${value}<br>`;
                         }
                     } else {
-                        // If it's not an object, just display it as is
+                        // Handle simple string content
                         contentHtml = card.content;
                     }
     
                     $('#cards-container-extra').append(`
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="card text-black bg-light d-flex flex-column h-100">
-                                <div class="card-body d-flex flex-column">
-                                    <h4 class="card-title">${card.title}</h4>
-                                    <p class="card-text">${contentHtml}</p>
-                                    <!-- This makes sure the content is pushed to the top if needed -->
-                                    <div class="mt-auto"></div>
+                        <div class="col-lg-6 col-md-6 mb-3">
+                            <div class="card text-black bg-light h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">${card.title.replace(/_/g, ' ')}</h4>
+                                    <div class="card-text">${contentHtml}</div>
                                 </div>
                             </div>
                         </div>

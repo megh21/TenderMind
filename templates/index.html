@@ -299,6 +299,7 @@
                                 function getColor(rating) {
                                     switch (rating.toLowerCase()) {
                                         case 'low':
+                                            return 'blue';
                                         case 'somehow feasible':
                                             return 'green';
                                         case 'moderate':
@@ -313,6 +314,7 @@
                                 function getRatingPercent(rating) {
                                     switch (rating.toLowerCase()) {
                                         case 'low':
+                                            return 5;
                                         case 'somehow feasible':
                                             return 33;
                                         case 'moderate':
@@ -338,52 +340,47 @@
 
                         <!-- Addons checkboxes in one row -->
                         <div class="container-fluid">
-                            <div class="row my-3 d-flex align-items-center" id="checkbox-container">
-                                <div class="col-auto">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="Special_Requirements"
-                                            id="addon1">
-                                        <label class="form-check-label" for="addon1">Special Requirements</label>
+                            <div class="row my-3" id="checkbox-container">
+                                <div class="d-flex flex-wrap gap-3 align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Special_Requirements" id="addon1">
+                                        <label class="form-check-label text-nowrap" for="addon1" data-bs-toggle="tooltip" title="Special Requirements">
+                                            Special Requirements
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="Phases_and_Milestones"
-                                            id="addon2">
-                                        <label class="form-check-label" for="addon2">Phases and Milestones</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Phases_and_Milestones" id="addon2">
+                                        <label class="form-check-label text-nowrap" for="addon2" data-bs-toggle="tooltip" title="Phases and Milestones">
+                                            Phases and Milestones
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="Submission_Guidelines"
-                                            id="addon3">
-                                        <label class="form-check-label" for="addon3">Submission Guidelines</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Submission_Guidelines" id="addon3">
+                                        <label class="form-check-label text-nowrap" for="addon3" data-bs-toggle="tooltip" title="Submission Guidelines">
+                                            Submission Guidelines
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox"
-                                            value="Technical_Specifications" id="addon4">
-                                        <label class="form-check-label" for="addon4">Technical Specifications</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Technical_Specifications" id="addon4">
+                                        <label class="form-check-label text-nowrap" for="addon4" data-bs-toggle="tooltip" title="Technical Specifications">
+                                            Technical Specifications
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox"
-                                            value="Legal_and_Compliance_Requirements" id="addon5">
-                                        <label class="form-check-label" for="addon5">Legal and Compliance Requirements</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Legal_and_Compliance_Requirements" id="addon5">
+                                        <label class="form-check-label text-nowrap" for="addon5" data-bs-toggle="tooltip" title="Legal and Compliance Requirements">
+                                            Legal and Compliance
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" value="Contact_Information"
-                                            id="addon6">
-                                        <label class="form-check-label" for="addon6">Contact Information</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Contact_Information" id="addon6">
+                                        <label class="form-check-label text-nowrap" for="addon6" data-bs-toggle="tooltip" title="Contact Information">
+                                            Contact Information
+                                        </label>
                                     </div>
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-primary" id="submitAddons">Submit
-                                        Addons</button>
+                                    <div>
+                                        <button type="button" class="btn btn-primary text-nowrap" id="submitAddons">Submit Addons</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -399,9 +396,16 @@
 
                     <!-- Bootstrap 5.3.0 and Dependencies -->
                     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+                    <script src="https://unpkg.com/@popperjs/core@2"></script>
 
                     <script>
                         $(document).ready(function () {
+                            // Initialize all tooltips
+                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                return new bootstrap.Tooltip(tooltipTriggerEl)
+                            });
+
                             // Event listener for clicking on different tender tabs
                             $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
                                 // Clear all input fields and checkboxes when switching to a different tab
@@ -413,7 +417,8 @@
                             $('#submitAddons').click(function () {
                                 let selectedAddons = [];
                                 $('input[type=checkbox]:checked').each(function () {
-                                    selectedAddons.push($(this).val());
+                                    // Replace underscores with spaces when sending to backend
+                                    selectedAddons.push($(this).val().replace(/_/g, ' '));
                                 });
 
                                 // Send selected addons and current tender ID to the backend
@@ -468,6 +473,38 @@
                             });
                         });
                     </script>
+
+                    <style>
+                        .form-check {
+                            margin: 0;
+                            padding: 8px 12px;
+                            background-color: #f8f9fa;
+                            border-radius: 4px;
+                            transition: all 0.3s ease;
+                        }
+
+                        .form-check:hover {
+                            background-color: #e9ecef;
+                        }
+
+                        .text-nowrap {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            max-width: 200px;
+                        }
+
+                        #checkbox-container {
+                            border-radius: 8px;
+                            padding: 15px;
+                            background-color: white;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        }
+
+                        .gap-3 {
+                            gap: 1rem!important;
+                        }
+                    </style>
 
 <div class="tab-pane fade" id="chat" role="tabpanel">
 

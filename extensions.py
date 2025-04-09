@@ -1,4 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 
-# Create a single instance of SQLAlchemy
 db = SQLAlchemy()
+
+
+def init_db(app):
+    with app.app_context():
+        # Import models here to ensure they are registered with SQLAlchemy
+        db.create_all()

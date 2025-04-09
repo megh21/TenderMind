@@ -1,0 +1,17 @@
+.venv
+venv/
+__pycache__
+*.pyc
+*.pyo
+*.git
+*.gitignore
+*.DS_Store
+*.pyd
+*.log
+*.egg-info
+*.egg
+*.whl
+*.tar.gz
+*.zip
+.ruff_cache
+*.db

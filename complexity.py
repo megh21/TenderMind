@@ -7,7 +7,7 @@ from langchain_community.vectorstores.faiss import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_cohere import CohereEmbeddings
 from langchain_cohere import ChatCohere
-from langchain.cache import InMemoryCache
+from langchain_community.cache import InMemoryCache
 from langchain_core.language_models.chat_models import BaseChatModel
 from dotenv import load_dotenv
 import time
@@ -158,7 +158,7 @@ Factors:
    - **Description:** Evaluate the complexity of integrating with existing systems.
 
 4. **Time Feasibility**
-   - **Ratings:** [Unfeasible], [Somehow Feasible], [Feasible], [Not Available]
+   - **Ratings:** [High], [Somehow Feasible], [Moderate], [Not Available]
    - **Description:** Consider the feasibility of the proposed timeline.
 
 5. **Days Left to Submit the Proposal**

@@ -163,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function getColor(rating) {
         switch (rating.toLowerCase()) {
             case 'low':
+                return 'blue';
             case 'somehow feasible':
                 return 'green';
             case 'moderate':
@@ -177,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function getRatingPercent(rating) {
         switch (rating.toLowerCase()) {
             case 'low':
+                return '5'
             case 'somehow feasible':
                 return 33;
             case 'moderate':

@@ -2,49 +2,36 @@ import os
 from flask import Flask, request, redirect, url_for, render_template, jsonify
 from werkzeug.utils import secure_filename
 import json
-
 from RAG_21 import get_RAG
 from Conv_RAG import ChatManager, ChatWithoutTopic
-
 import yaml
-
 from complexity import get_assesment
-
-from flask_sqlalchemy import SQLAlchemy
-
-
 import re
+from extensions import db, init_db
+from models import Tender  # Import the model
 
 # Initialize the Flask app
 app = Flask(__name__)
 
-# Configure the app and set the upload folder
-app.config["UPLOAD_FOLDER"] = "uploads"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tenders.db"  # Correct database URI
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = (
-    False  # Disable SQLAlchemy event system for performance
+# Ensure instance directory exists
+os.makedirs("instance", exist_ok=True)
+
+# Configure database with absolute path
+instance_path = os.path.join(os.getcwd(), "instance")
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"sqlite:///{instance_path}/tenders.db?check_same_thread=False"
 )
-
-# Initialize SQLAlchemy
-db = SQLAlchemy(app)
-
-
-# Define the Tender model
-class Tender(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    json_data = db.Column(db.Text, nullable=False)  # Store JSON data as text
-    metrics = db.Column(db.Text, nullable=True)  # Any metrics stored as text
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["UPLOAD_FOLDER"] = "uploads"  # Directory for file uploads
+app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # Limit file size to 16MB
 
 
-# Initialize the database and create tables if they don't exist
-def init_db():
-    with app.app_context():
-        db.create_all()
+# Initialize extensions
+db.init_app(app)
 
-
-# Call init_db() to create tables
-init_db()
+# Initialize database
+with app.app_context():
+    init_db(app)
 
 
 @app.route("/", methods=["GET", "POST"])

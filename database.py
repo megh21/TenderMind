@@ -13,7 +13,9 @@ class Tender(db.Model):
 
 def init_db(app):
     # Set the database to be stored in the same directory with a custom name
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tender.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        "sqlite:///instance/tenders.db?check_same_thread=False"
+    )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  # Avoid unnecessary overhead
 
     db.init_app(app)

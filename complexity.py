@@ -7,7 +7,7 @@ from langchain_community.vectorstores.faiss import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_cohere import CohereEmbeddings
 from langchain_cohere import ChatCohere
-from langchain.cache import InMemoryCache
+from langchain_community.cache import InMemoryCache
 from langchain_core.language_models.chat_models import BaseChatModel
 from dotenv import load_dotenv
 import time

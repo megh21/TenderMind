@@ -158,7 +158,7 @@ Factors:
    - **Description:** Evaluate the complexity of integrating with existing systems.
 
 4. **Time Feasibility**
-   - **Ratings:** [Unfeasible], [Somehow Feasible], [Feasible], [Not Available]
+   - **Ratings:** [High], [Somehow Feasible], [Moderate], [Not Available]
    - **Description:** Consider the feasibility of the proposed timeline.
 
 5. **Days Left to Submit the Proposal**

@@ -15,13 +15,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy all Python files and other necessary files
-COPY *.py .
-COPY .env .
 COPY . .
-COPY uploads/ uploads/
-COPY store/ store/
-COPY templates/ templates/
-COPY static/ static/
 
 # Set environment variables
 ENV FLASK_APP=app.py

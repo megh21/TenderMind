@@ -83,6 +83,11 @@ User can also interact through an integrated chat interface to do detailed analy
 4. **Interact Through Chat:**
    - Navigate to the "Chat" tab to interact with the AI for assistance and information related to your tenders.
 
+##Deployment
+
+Now Live at, [koyeb](https://sufficient-chlo-megh-73b3c820.koyeb.app/).
+(Warning: could not work if paused by service provider, running on free tier :) )
+
 ## Screenshots
 
 ![TenderMind UI](UI.png)
